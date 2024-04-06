@@ -87,7 +87,7 @@ public class AppRelatorioArvoreBinaria {
         arv = new BinaryTreeImpl(compPorMatricula);
         gerador.geraArvoreDegenerada(50000, arv);
         System.out.println("Árvore Degenerada Criada");
-        System.out.println(" Altura: " + arv.altura());
+        System.out.println("Altura: " + arv.altura());
 //------Fim do trecho citado na questão 10 do relatório-------------------------------
     }
 }

@@ -15,26 +15,24 @@ public class BinaryTreeImpl<T> implements BinaryTree<T> {
 
     @Override
     public void adicionar(T newValue) {
-
-        Node<T> newNode = new Node<>(newValue);
-
+        Node<T> newNode = new Node<T>(newValue);
         if (root == null) {
             root = newNode;
         } else {
             Node<T> currentNode = root;
-            Node<T> previousNode;
+            Node<T> parentNode;
             while (true) {
-                previousNode = currentNode;
-                if (comparator.compare(newValue, currentNode.getValor()) < 0) {
+                parentNode = currentNode;
+                if (this.comparator.compare(newValue, currentNode.getValor()) < 0) {
                     currentNode = currentNode.getFilhoEsquerda();
                     if (currentNode == null) {
-                        previousNode.setFilhoEsquerda(newNode);
+                        parentNode.setFilhoEsquerda(newNode);
                         return;
                     }
                 } else {
                     currentNode = currentNode.getFilhoDireita();
                     if (currentNode == null) {
-                        previousNode.setFilhoDireita(newNode);
+                        parentNode.setFilhoDireita(newNode);
                         return;
                     }
                 }
@@ -79,42 +77,43 @@ public class BinaryTreeImpl<T> implements BinaryTree<T> {
 
     @Override
     public T remover(T valor) {
-
         Node<T> currentNode = root;
+        return removerRec(currentNode, valor);
+    }
+
+    private T removerRec(Node<T> currentNode, T valor) {
         
-        while (currentNode != null) {
-            if (this.comparator.compare(valor, currentNode.getValor()) == 0) {
-                T removedValue = currentNode.getValor();
-                if (currentNode.getFilhoDireita() == null && currentNode.getFilhoEsquerda() == null) {
-                    currentNode = null;
-                } else if (currentNode.getFilhoDireita() == null) {
-                    currentNode = currentNode.getFilhoEsquerda();
-                } else if (currentNode.getFilhoEsquerda() == null) {
-                    currentNode = currentNode.getFilhoDireita();
-                } else {
-                    Node<T> successor = currentNode.getFilhoDireita();
-                    while (successor.getFilhoEsquerda() != null) {
-                        successor = successor.getFilhoEsquerda();
-                    }
-                    currentNode.setValor(successor.getValor());
-                    successor = null;
-                }
-                return removedValue;
-            } else if (this.comparator.compare(valor, currentNode.getValor()) < 0) {
+        if (currentNode == null)
+            throw new IllegalArgumentException("Value not found in tree.");
+        else if (this.comparator.compare(valor, currentNode.getValor()) < 0)
+            removerRec(currentNode.getFilhoEsquerda(), valor);
+        else if (this.comparator.compare(valor, currentNode.getValor()) > 0)
+            removerRec(currentNode.getFilhoDireita(), valor);
+        else {
+            T removedValue = currentNode.getValor();
+            if (currentNode.getFilhoDireita() == null && currentNode.getFilhoEsquerda() == null) {
+                currentNode = null;
+            } else if (currentNode.getFilhoDireita() == null) {
                 currentNode = currentNode.getFilhoEsquerda();
-            } else {
+            } else if (currentNode.getFilhoEsquerda() == null) {
                 currentNode = currentNode.getFilhoDireita();
+            } else {
+                Node<T> successor = currentNode.getFilhoDireita();
+                while (successor.getFilhoEsquerda() != null) {
+                    successor = successor.getFilhoEsquerda();
+                }
+                currentNode.setValor(successor.getValor());
+                successor = null;
             }
+            return removedValue;
         }
         return null;
     }
 
     @Override
     public int altura() {
-
         Node<T> currentNode = root;
         int height = -1;
-
         while (currentNode != null) {
             height++;
             if (currentNode.getFilhoEsquerda() != null) {
@@ -125,38 +124,23 @@ public class BinaryTreeImpl<T> implements BinaryTree<T> {
                 currentNode = null;
             }
         }
-
         return height;
     }
-
+    
     @Override
     public int quantidadeNos() {
-        
-        Node<T> currentNode = root;
-        int buffer = 0;
+        return quantidadeNosRec(root);
+    }
 
-        if (currentNode != null) {
-            ArrayList<Node<T>> queue = new ArrayList<>();
-            queue.add(currentNode);
-            while (queue.size() > 0) {
-                currentNode = queue.get(0);
-                buffer ++;
-                if (currentNode.getFilhoEsquerda() != null) {
-                    queue.add(currentNode.getFilhoEsquerda());
-                }
-                if (currentNode.getFilhoDireita() != null) {
-                    queue.add(currentNode.getFilhoDireita());
-                }
-                queue.remove(0);
-            }
-        }
-
-        return buffer;
+    private int quantidadeNosRec(Node<T> currentNode) {
+        if (currentNode == null)
+            return 0;
+        return 1 + quantidadeNosRec(currentNode.getFilhoEsquerda()) + quantidadeNosRec(currentNode.getFilhoDireita());
     }
 
     @Override
     public String caminharEmNivel() {
-        
+
         Node<T> currentNode = root;
         String buffer = "";
 
@@ -181,26 +165,16 @@ public class BinaryTreeImpl<T> implements BinaryTree<T> {
 
     @Override
     public String caminharEmOrdem() {
-        
-        if (root == null) {
-            return "";
-        }
-
-        String buffer = "";
-        ArrayList<Node<T>> stack = new ArrayList<>();
         Node<T> currentNode = root;
+        return caminarEmOrdemRec(currentNode, "");
+    }
 
-        while (currentNode != null || stack.size() > 0) {
-            while (currentNode != null) {
-                stack.add(currentNode);
-                currentNode = currentNode.getFilhoEsquerda();
-            }
-            currentNode = stack.get(stack.size() - 1);
-            buffer += currentNode.getValor().toString();
-            stack.remove(stack.size() - 1);
-            currentNode = currentNode.getFilhoDireita();
+    private String caminarEmOrdemRec(Node<T> node, String buffer) {
+        if (node != null) {
+            buffer = caminarEmOrdemRec(node.getFilhoEsquerda(), buffer);
+            buffer += node.getValor().toString();
+            buffer = caminarEmOrdemRec(node.getFilhoDireita(), buffer);
         }
         return buffer;
     }
 }
-
