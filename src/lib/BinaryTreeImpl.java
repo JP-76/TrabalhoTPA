@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.ArrayList;
 
 @SuppressWarnings("rawtypes") // Anotação para suprimir avisos de compilação
-public class BinaryTreeImpl<T> implements BinaryTree<T> {
+public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
 
     protected Node<T> root = null;
     protected Comparator<T> comparator;

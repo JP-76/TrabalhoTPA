@@ -7,7 +7,7 @@ package app;
 //Lembre-se de ajustar os imports!!!!!
 import lib.AVLTree;
 import lib.BinaryTreeImpl;
-import lib.BinaryTree;
+import lib.IArvoreBinaria;
 
 /**
  *
@@ -22,7 +22,7 @@ public class AppRelatorioAVL {
 
         GeradorDeArvores gerador = new GeradorDeArvores();
         ComparadorAlunoPorMatricula comparador = new ComparadorAlunoPorMatricula();
-        BinaryTree<Aluno> arv;
+        IArvoreBinaria<Aluno> arv;
 
         arv = new AVLTree(comparador);
         gerador.geraArvoreDegenerada(100, arv);

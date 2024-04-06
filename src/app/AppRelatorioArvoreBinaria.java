@@ -6,7 +6,7 @@
 package app;
 //Ajuste esse importe para que importe sua classe de Árvore binária
 import lib.BinaryTreeImpl;
-import lib.BinaryTree;
+import lib.IArvoreBinaria;
 
 /**
  *
@@ -23,7 +23,7 @@ public class AppRelatorioArvoreBinaria {
         //Instancio um comparador de alunos por matricula (também fornecido)
         ComparadorAlunoPorMatricula compPorMatricula = new ComparadorAlunoPorMatricula();
         ComparadorAlunoPorNome compPorNome = new ComparadorAlunoPorNome();
-        BinaryTree<Aluno> arv;
+        IArvoreBinaria<Aluno> arv;
         
         
 //------Início do trecho a ser considerado nas questões 1, 2 e 3 do relatório-------------------------------

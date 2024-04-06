@@ -19,7 +19,7 @@ import java.util.Comparator;
  * @param <T>
  */
 @SuppressWarnings("rawtypes") //Anotação para suprimir avisos de compilação
-public interface BinaryTree<T> {
+public interface IArvoreBinaria<T> {
     
     
     
