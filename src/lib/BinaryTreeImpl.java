@@ -57,57 +57,86 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
         return null;
     }
 
-    @SuppressWarnings("unchecked") // Anotação para suprimir avisos de compilação
     @Override
     public T pesquisar(T valor, Comparator customComparator) {
+        return pesquisarRec(root, valor, customComparator);
+    }
 
-        Node<T> currentNode = root;
-
-        while (currentNode != null) {
-            if (customComparator.compare(valor, currentNode.getValor()) == 0) {
-                return currentNode.getValor();
-            } else if (customComparator.compare(valor, currentNode.getValor()) < 0) {
-                currentNode = currentNode.getFilhoEsquerda();
-            } else {
-                currentNode = currentNode.getFilhoDireita();
-            }
+    @SuppressWarnings("unchecked")
+    private T pesquisarRec(Node<T> currentNode, T valor, Comparator customComparator) {
+        if (currentNode == null) {
+            return null;
         }
-        return null;
+
+        if (customComparator.compare(valor, currentNode.getValor()) == 0) {
+            return currentNode.getValor();
+        } else if (customComparator.compare(valor, currentNode.getValor()) < 0) {
+            return pesquisarRec(currentNode.getFilhoEsquerda(), valor, customComparator);
+        } else {
+            return pesquisarRec(currentNode.getFilhoDireita(), valor, customComparator);
+        }
     }
 
     @Override
     public T remover(T valor) {
-        Node<T> currentNode = root;
-        return removerRec(currentNode, valor);
+        if (root == null) {
+            throw new IllegalArgumentException("Value not found in tree.");
+        }
+        return removerRec(root, valor);
     }
 
     private T removerRec(Node<T> currentNode, T valor) {
-        
-        if (currentNode == null)
-            throw new IllegalArgumentException("Value not found in tree.");
-        else if (this.comparator.compare(valor, currentNode.getValor()) < 0)
-            removerRec(currentNode.getFilhoEsquerda(), valor);
-        else if (this.comparator.compare(valor, currentNode.getValor()) > 0)
-            removerRec(currentNode.getFilhoDireita(), valor);
-        else {
+        if (currentNode == null) {
+            return null;
+        }
+
+        int comparisonResult = comparator.compare(valor, currentNode.getValor());
+
+        if (comparisonResult < 0) {
+            currentNode.setFilhoEsquerda(new Node<>(removerRec(currentNode.getFilhoEsquerda(), valor)));
+        } else if (comparisonResult > 0) {
+            currentNode.setFilhoDireita(new Node<>(removerRec(currentNode.getFilhoDireita(), valor)));
+        } else {
+            // Node to be removed found
             T removedValue = currentNode.getValor();
-            if (currentNode.getFilhoDireita() == null && currentNode.getFilhoEsquerda() == null) {
-                currentNode = null;
-            } else if (currentNode.getFilhoDireita() == null) {
-                currentNode = currentNode.getFilhoEsquerda();
-            } else if (currentNode.getFilhoEsquerda() == null) {
-                currentNode = currentNode.getFilhoDireita();
-            } else {
-                Node<T> successor = currentNode.getFilhoDireita();
-                while (successor.getFilhoEsquerda() != null) {
-                    successor = successor.getFilhoEsquerda();
-                }
-                currentNode.setValor(successor.getValor());
-                successor = null;
+
+            // Case 1: Node has no children
+            if (currentNode.getFilhoEsquerda() == null && currentNode.getFilhoDireita() == null) {
+                return removedValue;
             }
+
+            // Case 2: Node has one child
+            if (currentNode.getFilhoEsquerda() == null) {
+                return currentNode.getFilhoDireita().getValor();
+            }
+            if (currentNode.getFilhoDireita() == null) {
+                return currentNode.getFilhoEsquerda().getValor();
+            }
+
+            // Case 3: Node has two children
+            Node<T> successor = findSuccessor(currentNode.getFilhoDireita());
+            currentNode.setValor(successor.getValor());
+            currentNode.setFilhoDireita(removeSuccessor(currentNode.getFilhoDireita()));
+
             return removedValue;
         }
-        return null;
+
+        return currentNode.getValor();
+    }
+
+    private Node<T> findSuccessor(Node<T> node) {
+        while (node.getFilhoEsquerda() != null) {
+            node = node.getFilhoEsquerda();
+        }
+        return node;
+    }
+
+    private Node<T> removeSuccessor(Node<T> node) {
+        if (node.getFilhoEsquerda() == null) {
+            return node.getFilhoDireita();
+        }
+        node.setFilhoEsquerda(removeSuccessor(node.getFilhoEsquerda()));
+        return node;
     }
 
     @Override
@@ -126,7 +155,7 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
         }
         return height;
     }
-    
+
     @Override
     public int quantidadeNos() {
         return quantidadeNosRec(root);
