@@ -3,7 +3,6 @@ package lib;
 import java.util.Comparator;
 import java.util.ArrayList;
 
-@SuppressWarnings("rawtypes") // Anotação para suprimir avisos de compilação
 public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
 
     protected Node<T> root = null;
@@ -79,10 +78,15 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
 
     @Override
     public T remover(T valor) {
-        if (root == null) {
+        if (this.root == null) {
             throw new IllegalArgumentException("Value not found in tree.");
         }
-        return removerRec(root, valor);
+        T removedValue = pesquisar(valor);
+        if(removedValue != null){
+            removerRec(this.root, valor);
+            return removedValue;
+        }
+        return null;
     }
 
     private T removerRec(Node<T> currentNode, T valor) {
@@ -97,15 +101,12 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
         } else if (comparisonResult > 0) {
             currentNode.setFilhoDireita(new Node<>(removerRec(currentNode.getFilhoDireita(), valor)));
         } else {
-            // Node to be removed found
             T removedValue = currentNode.getValor();
 
-            // Case 1: Node has no children
             if (currentNode.getFilhoEsquerda() == null && currentNode.getFilhoDireita() == null) {
                 return removedValue;
             }
 
-            // Case 2: Node has one child
             if (currentNode.getFilhoEsquerda() == null) {
                 return currentNode.getFilhoDireita().getValor();
             }
@@ -113,7 +114,6 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
                 return currentNode.getFilhoEsquerda().getValor();
             }
 
-            // Case 3: Node has two children
             Node<T> successor = findSuccessor(currentNode.getFilhoDireita());
             currentNode.setValor(successor.getValor());
             currentNode.setFilhoDireita(removeSuccessor(currentNode.getFilhoDireita()));
