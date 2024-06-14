@@ -8,8 +8,7 @@ public class AppService {
 	/*
 	 * nextInt esta dando problema, uma solução do stackoverflow e usar o nextLine depois.
 	 * FONTE: https://stackoverflow.com/questions/5032356/using-scanner-nextline
-	 * Achamos que este problema e devido estarmos utilizando uma versão antiga do Java,
-	 * pois em versões mais recentes não ocorre este problema.
+	 * Achamos que este problema e devido estarmos utilizando uma versão antiga do Java.
 	 */
 	Scanner sc = new Scanner(System.in);
 
@@ -28,9 +27,7 @@ public class AppService {
 		System.out.println("7 - Excluir Aluno por Matricula");
 		System.out.println("8 - Sair do sistema");
 
-		String chosenOption = sc.nextLine();
-
-		return chosenOption;
+        return sc.nextLine();
 	}
 
 	public void cadastrarAluno(IArvoreBinaria<Aluno> arvAluno) {
