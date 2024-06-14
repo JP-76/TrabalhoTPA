@@ -63,17 +63,29 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
 
     @SuppressWarnings("unchecked")
     private T pesquisarRec(Node<T> currentNode, T valor, Comparator customComparator) {
+
+        T result = null;
+
         if (currentNode == null) {
             return null;
         }
 
-        if (customComparator.compare(valor, currentNode.getValor()) == 0) {
-            return currentNode.getValor();
-        } else if (customComparator.compare(valor, currentNode.getValor()) < 0) {
-            return pesquisarRec(currentNode.getFilhoEsquerda(), valor, customComparator);
+        if (customComparator != this.comparator) {
+            if (currentNode.getFilhoEsquerda() != null && result == null) {
+                result = pesquisarRec(currentNode.getFilhoEsquerda(), valor, customComparator);
+            } 
+            if (currentNode.getFilhoDireita() != null && result == null) {
+                result = pesquisarRec(currentNode.getFilhoDireita(), valor, customComparator);
+            }
         } else {
-            return pesquisarRec(currentNode.getFilhoDireita(), valor, customComparator);
+            result = pesquisar(valor);
         }
+
+        if (customComparator.compare(valor, currentNode.getValor()) == 0){
+            return currentNode.getValor();
+        }
+        
+        return result;
     }
 
     @Override
@@ -170,15 +182,14 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
     @Override
     public String caminharEmNivel() {
 
-        Node<T> currentNode = root;
-        String buffer = "";
-
+        Node<T> currentNode = this.root;
+        String buffer = "[";
         if (currentNode != null) {
-            ArrayList<Node<T>> queue = new ArrayList<>();
+            ArrayList<Node<T>> queue = new ArrayList<Node<T>>();
             queue.add(currentNode);
-            while (queue.size() > 0) {
+            while (!queue.isEmpty()) {
                 currentNode = queue.get(0);
-                buffer += currentNode.getValor().toString();
+                buffer += currentNode.getValor().toString() + " \n ";
                 if (currentNode.getFilhoEsquerda() != null) {
                     queue.add(currentNode.getFilhoEsquerda());
                 }
@@ -189,19 +200,20 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
             }
         }
 
-        return buffer;
+        return buffer.substring(0, buffer.length() - 3) + "]";
     }
 
     @Override
     public String caminharEmOrdem() {
         Node<T> currentNode = root;
-        return caminarEmOrdemRec(currentNode, "");
+        String buffer = caminarEmOrdemRec(currentNode, "[");
+        return buffer.substring(0, buffer.length() - 3) + "]";
     }
 
     private String caminarEmOrdemRec(Node<T> node, String buffer) {
         if (node != null) {
             buffer = caminarEmOrdemRec(node.getFilhoEsquerda(), buffer);
-            buffer += node.getValor().toString();
+            buffer += node.getValor().toString() + " \n ";
             buffer = caminarEmOrdemRec(node.getFilhoDireita(), buffer);
         }
         return buffer;

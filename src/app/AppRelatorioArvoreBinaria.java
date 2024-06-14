@@ -42,9 +42,9 @@ public class AppRelatorioArvoreBinaria {
         gerador.geraArvoreDegenerada(1000, arv);
         System.out.println("Árvore Degenerada Criada");
         System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
-//------Fim do trecho citado nas questões 1, 2 e 3 do relatório-------------------------------
-
-//------Início do trecho citado nas questões 5, 6 e 7 do relatório-------------------------------
+        //------Fim do trecho citado nas questões 1, 2 e 3 do relatório-------------------------------
+        
+        //------Início do trecho citado nas questões 5, 6 e 7 do relatório-------------------------------
         arv = new BinaryTreeImpl(compPorMatricula);
         //Chamo o gerador para inserir 100 elementos nessa árvore de forma que ela fique perfeitamente balanceada
         gerador.geraArvorePerfeitamenteBalanceada(1,100,arv);

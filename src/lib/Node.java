@@ -63,6 +63,4 @@ public class Node<T> {
     public void setFilhoEsquerda(Node<T> filhoEsquerda) {
         this.filhoEsquerda = filhoEsquerda;
     }
-    
-    
 }

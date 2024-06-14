@@ -10,6 +10,7 @@ import java.util.Comparator;
  * nos programas de teste para redigir os relatórios.
  */
 
+
 public class ComparadorAlunoPorMatricula implements Comparator<Aluno> {
     /*O nosso comparador utiliza o método compare da classe integer para comparar as matrículas de 2 alunos
     *Eu poderia ter feito um if para vrificar qual matrícula é maior e retornar 1, -1 ou 0...
