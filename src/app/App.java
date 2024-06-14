@@ -47,28 +47,6 @@ public class App {
 					System.out.println("Opção inválida");
 			}
 
-			// if (chosenOption.equals("1")) {
-			// Aluno aluno = appService.cadastrarAluno(arvAluno);
-			// arvAluno.adicionar(aluno);
-			// System.out.println("Aluno cadastrado com sucesso!");
-			// } else if (chosenOption.equals("2")) {
-			// appService.cadastrarDisciplina(arvDisciplina);
-			// } else if (chosenOption.equals("3")) {
-			// appService.informarPreRequisito(arvDisciplina);
-			// } else if (chosenOption.equals("4")) {
-			// appService.informarDisciplinaCursada(arvAluno, arvDisciplina);
-			// } else if (chosenOption.equals("5")) {
-			// appService.consultarAlunoPorNome(arvAluno);
-			// } else if (chosenOption.equals("6")) {
-			// appService.consultarAlunoPorMatricula(arvAluno);
-			// } else if (chosenOption.equals("7")) {
-			// appService.excluirAlunoPorMatricula(arvAluno);
-			// } else if (chosenOption.equals("8")) {
-			// System.out.println("Saindo...");
-			// } else {
-			// System.out.println("Opção inválida");
-			// }
-
 		} while (!chosenOption.equals("8"));
 
 	}

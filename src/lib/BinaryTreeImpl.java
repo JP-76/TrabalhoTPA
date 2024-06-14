@@ -101,7 +101,7 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
         return null;
     }
 
-    private T removerRec(Node<T> currentNode, T valor) {
+    private Node<T> removerRec(Node<T> currentNode, T valor) {
         if (currentNode == null) {
             return null;
         }
@@ -109,31 +109,38 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
         int comparisonResult = comparator.compare(valor, currentNode.getValor());
 
         if (comparisonResult < 0) {
-            currentNode.setFilhoEsquerda(new Node<>(removerRec(currentNode.getFilhoEsquerda(), valor)));
+            currentNode.setFilhoEsquerda(new Node<>(removerRec(currentNode.getFilhoEsquerda(), valor).getValor()));
         } else if (comparisonResult > 0) {
-            currentNode.setFilhoDireita(new Node<>(removerRec(currentNode.getFilhoDireita(), valor)));
+            currentNode.setFilhoDireita(new Node<>(removerRec(currentNode.getFilhoDireita(), valor).getValor()));
         } else {
-            T removedValue = currentNode.getValor();
-
+            
             if (currentNode.getFilhoEsquerda() == null && currentNode.getFilhoDireita() == null) {
-                return removedValue;
+                currentNode = null;
             }
-
-            if (currentNode.getFilhoEsquerda() == null) {
-                return currentNode.getFilhoDireita().getValor();
+            else if (currentNode.getFilhoEsquerda() == null) {
+                Node<T> temp = currentNode.getFilhoDireita();
+                currentNode = null;
+                currentNode = temp;
             }
-            if (currentNode.getFilhoDireita() == null) {
-                return currentNode.getFilhoEsquerda().getValor();
+            else if (currentNode.getFilhoDireita() == null) {
+                Node<T> temp = currentNode.getFilhoEsquerda();
+                currentNode = null;
+                currentNode = temp;
+            } else {
+                Node<T> leftNode = currentNode.getFilhoEsquerda();
+
+                while (leftNode.getFilhoDireita() != null) {
+                    leftNode = leftNode.getFilhoDireita();
+                }
+
+                currentNode.setValor(leftNode.getValor());
+                leftNode.setValor(valor);
+
+                currentNode.setFilhoEsquerda(new Node<>(removerRec(currentNode.getFilhoEsquerda(), valor).getValor()));
             }
-
-            Node<T> successor = findSuccessor(currentNode.getFilhoDireita());
-            currentNode.setValor(successor.getValor());
-            currentNode.setFilhoDireita(removeSuccessor(currentNode.getFilhoDireita()));
-
-            return removedValue;
         }
 
-        return currentNode.getValor();
+        return currentNode;
     }
 
     private Node<T> findSuccessor(Node<T> node) {

@@ -50,7 +50,7 @@ public class Aluno  {
     public String toString(){
         return "Matricula: " + matricula +
         "\nNome: " + nome +
-        "\nDisciplinas Cursadas: " + disciplinasCursadas.toString();
+        "\nDisciplinas Cursadas: " + disciplinasCursadas;
     }
 
 }

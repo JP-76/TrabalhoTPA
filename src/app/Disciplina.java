@@ -41,18 +41,17 @@ public class Disciplina {
     }
 
     public void addPreReq(Disciplina disciplina) {
-        if(comp.compare(disciplina, this) != 0){
+        if(this != disciplina){
             this.preRequisitos.add(disciplina);
         } else {
             System.out.println("Disciplina não pode ser pre-requisito dela mesma");
         }
-        // TODO: ta errado
     }
 
     public String toString() {
         return "Codigo: " + codigo + 
         "\nNome: " + nome +
         "\nCargaHoraria: " + cargaHoraria +
-        "\nPré-requisito(s): " + preRequisitos.toString();
+        "\nPré-requisito(s): " + preRequisitos;
     }
 }
