@@ -90,11 +90,8 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
 
     @Override
     public T remover(T valor) {
-        Node<T> node = removerRec(this.root, valor);
-        if (node != null) {
-            this.root = node; // Update the root in case it has changed
-        }
-        return node == null ? null : node.getValor();
+        this.root = removerRec(this.root, valor); // Update the root node
+        return this.root == null ? null : this.root.getValor();
     }
 
     private Node<T> removerRec(Node<T> currentNode, T valor) {
