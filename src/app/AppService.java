@@ -10,6 +10,7 @@ public class AppService {
 	 * FONTE: https://stackoverflow.com/questions/5032356/using-scanner-nextline
 	 * Achamos que este problema e devido estarmos utilizando uma versão antiga do Java.
 	 */
+	
 	Scanner sc = new Scanner(System.in);
 
 	public AppService() {
@@ -27,12 +28,12 @@ public class AppService {
 		System.out.println("7 - Excluir Aluno por Matricula");
 		System.out.println("8 - Sair do sistema");
 
-        return sc.nextLine();
+      return sc.nextLine();
 	}
 
 	public void cadastrarAluno(IArvoreBinaria<Aluno> arvAluno) {
 
-		printTitle("Cadastro de Aluno");
+  	printTitle("Cadastro de Aluno");
 		System.out.println("Digite a matricula do aluno: ");
 		int matricula = sc.nextInt();
 		sc.nextLine();

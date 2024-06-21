@@ -8,35 +8,36 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
     protected Node<T> root = null;
     protected Comparator<T> comparator;
 
-    public BinaryTreeImpl(Comparator<T> comp) {
-        comparator = comp;
+    public BinaryTreeImpl(Comparator<T> comparator) {
+        this.comparator = comparator;
     }
 
     @Override
     public void adicionar(T newValue) {
         Node<T> newNode = new Node<T>(newValue);
-        if (root == null) {
-            root = newNode;
+        if(this.root == null){
+            this.root = newNode;
         } else {
-            Node<T> currentNode = root;
-            Node<T> parentNode;
-            while (true) {
-                parentNode = currentNode;
-                if (this.comparator.compare(newValue, currentNode.getValor()) < 0) {
-                    currentNode = currentNode.getFilhoEsquerda();
-                    if (currentNode == null) {
-                        parentNode.setFilhoEsquerda(newNode);
-                        return;
-                    }
-                } else {
-                    currentNode = currentNode.getFilhoDireita();
-                    if (currentNode == null) {
-                        parentNode.setFilhoDireita(newNode);
-                        return;
-                    }
-                }
+            this.root = adicionarRec(this.root, newNode);
+        }
+    }
+
+    protected Node<T> adicionarRec(Node<T> currentNode, Node<T> newNode){
+        if (this.comparator.compare(newNode.getValor(), currentNode.getValor()) < 0){
+            if(currentNode.getFilhoEsquerda() == null){
+                currentNode.setFilhoEsquerda(newNode);
+            } else{
+                currentNode.setFilhoEsquerda(adicionarRec(currentNode.getFilhoEsquerda(), newNode));
+            }
+        } else{
+            if (currentNode.getFilhoDireita() == null){
+                currentNode.setFilhoDireita(newNode);
+            } else{
+                currentNode.setFilhoDireita(adicionarRec(currentNode.getFilhoDireita(), newNode));
             }
         }
+        
+        return currentNode;
     }
 
     @Override
@@ -90,11 +91,11 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
 
     @Override
     public T remover(T valor) {
-        this.root = removerRec(this.root, valor); // Update the root node
+        this.root = removerRec(this.root, valor); 
         return this.root == null ? null : this.root.getValor();
     }
 
-    private Node<T> removerRec(Node<T> currentNode, T valor) {
+    protected Node<T> removerRec(Node<T> currentNode, T valor) {
         if (currentNode == null) {
             return null;
         }
@@ -104,14 +105,12 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
         } else if (comparator.compare(valor, currentNode.getValor()) > 0) {
             currentNode.setFilhoDireita(removerRec(currentNode.getFilhoDireita(), valor));
         } else {
-            // Node to be deleted found
             if (currentNode.getFilhoEsquerda() == null) {
                 return currentNode.getFilhoDireita();
             } else if (currentNode.getFilhoDireita() == null) {
                 return currentNode.getFilhoEsquerda();
             }
 
-            // Node with two children: Get the in-order predecessor (max in the left subtree)
             Node<T> predecessor = findMax(currentNode.getFilhoEsquerda());
             currentNode.setValor(predecessor.getValor());
             currentNode.setFilhoEsquerda(removerRec(currentNode.getFilhoEsquerda(), predecessor.getValor()));
@@ -120,9 +119,16 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
         return currentNode;
     }
 
-    private Node<T> findMax(Node<T> node) {
+    protected Node<T> findMax(Node<T> node) {
         while (node.getFilhoDireita() != null) {
             node = node.getFilhoDireita();
+        }
+        return node;
+    }
+
+    protected Node<T> findMin(Node<T> node) {
+        while (node.getFilhoEsquerda() != null) {
+            node = node.getFilhoEsquerda();
         }
         return node;
     }
