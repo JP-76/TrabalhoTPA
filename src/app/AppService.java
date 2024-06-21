@@ -27,12 +27,12 @@ public class AppService {
 		System.out.println("7 - Excluir Aluno por Matricula");
 		System.out.println("8 - Sair do sistema");
 
-        return sc.nextLine();
+      return sc.nextLine();
 	}
 
 	public void cadastrarAluno(IArvoreBinaria<Aluno> arvAluno) {
 
-		printTitle("Cadastro de Aluno");
+  	printTitle("Cadastro de Aluno");
 		System.out.println("Digite a matricula do aluno: ");
 		int matricula = sc.nextInt();
 		sc.nextLine();
