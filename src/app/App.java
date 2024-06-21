@@ -1,7 +1,6 @@
 package app;
 
 import lib.BinaryTreeImpl;
-import lib.AVLTreeImpl;
 import lib.IArvoreBinaria;
 
 public class App {
@@ -12,8 +11,8 @@ public class App {
 
 		AppService appService = new AppService();
 
-		arvAluno = new AVLTreeImpl<Aluno>(new ComparadorAlunoPorMatricula());
-		arvDisciplina = new AVLTreeImpl<Disciplina>(new ComparadorDisciplinaPorCodigo());
+		arvAluno = new BinaryTreeImpl<Aluno>(new ComparadorAlunoPorMatricula());
+		arvDisciplina = new BinaryTreeImpl<Disciplina>(new ComparadorDisciplinaPorCodigo());
 
 		String chosenOption;
 
