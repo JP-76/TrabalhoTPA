@@ -38,12 +38,11 @@ public class Aluno  {
         this.nome = nome;
     }
 
-    public List<Disciplina> getDisciplinasCursadas(){
+    public List<Disciplina> getDisciplinasCursadas() {
         return disciplinasCursadas;
     }
 
-    public void addDisciplinaCursada(Disciplina disciplina){
-        
+    public void addDisciplinaCursada(Disciplina disciplina) {
         this.disciplinasCursadas.add(disciplina);
     }
 

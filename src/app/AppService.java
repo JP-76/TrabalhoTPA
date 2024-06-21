@@ -1,5 +1,6 @@
 package app;
 
+import java.io.IOException;
 import java.util.Scanner;
 import lib.IArvoreBinaria;
 
@@ -41,7 +42,7 @@ public class AppService {
 		String nome = sc.nextLine();
 
 		arvAluno.adicionar(new Aluno(matricula, nome));
-		System.out.println("Aluno cadastrado com sucesso!");
+		showQueryResult("Aluno cadastrado com sucesso!");
 	}
 
 	public void cadastrarDisciplina(IArvoreBinaria<Disciplina> arvDisciplina) {
@@ -57,7 +58,7 @@ public class AppService {
 		sc.nextLine();
 
 		arvDisciplina.adicionar(new Disciplina(codigo, nome, cargaHoraria));
-		System.out.println("Disciplina cadastrada com sucesso!");
+		showQueryResult("Disciplina cadastrada com sucesso!");
 	}
 
 	public void informarPreRequisito(IArvoreBinaria<Disciplina> arvDisciplina) {
@@ -75,13 +76,13 @@ public class AppService {
 
 		for (Disciplina elem : disciplina.getPreReq()) {
 			if (elem == disciplina) {
-				System.out.println("Disciplina informada ja esta cadastrada como pre-requisito");
+				showQueryResult("Disciplina informada ja esta cadastrada como pre-requisito");
 				return;
 			}
 		}
 
 		disciplina.addPreReq(preReq);
-		System.out.println("Pre-requisito informado com sucesso!");
+		showQueryResult("Pre-requisito informado com sucesso!");
 	}
 
 	public void informarDisciplinaCursada(IArvoreBinaria<Aluno> arvAluno, IArvoreBinaria<Disciplina> arvDisciplina) {
@@ -106,7 +107,7 @@ public class AppService {
 		Disciplina disciplinaCursada = arvDisciplina.pesquisar(new Disciplina(codigo, null, 0));
 
 		if (disciplinaCursada == null) {
-			System.out.println("Disciplina não encontrada!");
+			showQueryResult("Disciplina não encontrada!");
 			return;
 		}
 
@@ -117,8 +118,15 @@ public class AppService {
 			}
 		}
 
+		for (Disciplina preReq : disciplinaCursada.getPreReq()) {
+			if (!aluno.getDisciplinasCursadas().contains(preReq)) {
+				showQueryResult("Aluno não possui pre-requisito para cursar a disciplina!");
+				return;
+			}
+		}
+
 		aluno.addDisciplinaCursada(disciplinaCursada);
-		System.out.println("Disciplina cursada informada com sucesso!");
+		showQueryResult("Disciplina cursada informada com sucesso!");
 	}
 
 	public void consultarAlunoPorNome(IArvoreBinaria<Aluno> arvAluno) {
@@ -130,10 +138,9 @@ public class AppService {
 		Aluno aluno = arvAluno.pesquisar(new Aluno(0, nome), new ComparadorAlunoPorNome());
 
 		if (aluno != null) {
-			System.out.println("Informações do aluno: ");
 			showQueryResult(aluno.toString());
 		} else {
-			System.out.println("Aluno não encontrado!");
+			showQueryResult("Aluno não encontrado!");
 		}
 	}
 
@@ -147,11 +154,9 @@ public class AppService {
 		Aluno aluno = arvAluno.pesquisar(new Aluno(matricula, ""), new ComparadorAlunoPorMatricula());
 
 		if (aluno != null) {
-			System.out.println("Informações do aluno: ");
 			showQueryResult(aluno.toString());
-			System.out.println(aluno);
 		} else {
-			System.out.println("Aluno não encontrado!");
+			showQueryResult("Aluno não encontrado!");
 		}
 	}
 
@@ -166,9 +171,9 @@ public class AppService {
 
 		if (aluno != null) {
 			arvAluno.remover(aluno);
-			System.out.println("Aluno excluído com sucesso!");
+			showQueryResult("Aluno excluído com sucesso!");
 		} else {
-			System.out.println("Aluno não encontrado!");
+			showQueryResult("Aluno não encontrado!");
 		}
 	}
 
@@ -188,7 +193,8 @@ public class AppService {
 	}
 
 	private void clearScreen() {
-		System.out.print("\033[H\033[2J");
-		System.out.flush();
+		// System.out.print("\033[H\033[2J");
+		// System.out.flush();
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
-}
+}	

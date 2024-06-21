@@ -29,7 +29,7 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
             } else{
                 currentNode.setFilhoEsquerda(adicionarRec(currentNode.getFilhoEsquerda(), newNode));
             }
-        } else{
+        } else {
             if (currentNode.getFilhoDireita() == null){
                 currentNode.setFilhoDireita(newNode);
             } else{
@@ -65,11 +65,15 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
     @SuppressWarnings("unchecked")
     private T pesquisarRec(Node<T> currentNode, T valor, Comparator customComparator) {
 
-        T result = null;
-
         if (currentNode == null) {
             return null;
         }
+
+        if (customComparator.compare(valor, currentNode.getValor()) == 0){
+            return currentNode.getValor();
+        }
+
+        T result = null;
 
         if (customComparator != this.comparator) {
             if (currentNode.getFilhoEsquerda() != null && result == null) {
@@ -80,10 +84,6 @@ public class BinaryTreeImpl<T> implements IArvoreBinaria<T> {
             }
         } else {
             result = pesquisar(valor);
-        }
-
-        if (customComparator.compare(valor, currentNode.getValor()) == 0){
-            return currentNode.getValor();
         }
         
         return result;

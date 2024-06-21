@@ -48,6 +48,6 @@ public class AppRelatorioAVL {
         gerador.geraArvoreDegenerada(10000, arv);
         System.out.println("Árvore Degenerada Criada");
         System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
-
+        
     }
 }
