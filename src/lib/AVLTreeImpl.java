@@ -50,6 +50,7 @@ public class AVLTreeImpl <T> extends BinaryTreeImpl<T>{
 
                 T successorValue = findMin(currentNode.getFilhoDireita()).getValor();
                 currentNode.setValor(successorValue);
+
                 currentNode.setFilhoDireita(removerRec(currentNode.getFilhoDireita(), successorValue));
                 }
             }

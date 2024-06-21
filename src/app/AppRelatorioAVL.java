@@ -32,7 +32,6 @@ public class AppRelatorioAVL {
         gerador.geraArvoreDegenerada(100, arv);
         System.out.println("Árvore Degenerada Criada");
         System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
-
         arv = new AVLTreeImpl(comparador);
         gerador.geraArvoreDegenerada(1000, arv);
         System.out.println("Árvore AVL Criada");
@@ -41,7 +40,6 @@ public class AppRelatorioAVL {
         gerador.geraArvoreDegenerada(1000, arv);
         System.out.println("Árvore Degenerada Criada");
         System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
-        
         arv = new AVLTreeImpl(comparador);
         gerador.geraArvoreDegenerada(10000, arv);
         System.out.println("Árvore AVL Criada");
@@ -50,7 +48,6 @@ public class AppRelatorioAVL {
         gerador.geraArvoreDegenerada(10000, arv);
         System.out.println("Árvore Degenerada Criada");
         System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
-
 
     }
 }
